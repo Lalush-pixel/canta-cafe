@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ספריית קנטה - Library at the Canta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --burgundy: #6B1F1F;
+    --burgundy-dark: #4A1414;
+    --burgundy-light: #8B3030;
+    --cream: #F4E4BC;
+    --cream-light: #FBF1D9;
+    --cream-dark: #E5CFA0;
+    --gold: #D4A84B;
+    --gold-dark: #A8842F;
+    --green: #4A5D3A;
+    --green-dark: #2F3E25;
+    --ink: #3A1F0F;
+    --paper: #F8EAC8;
+    --shadow: rgba(74, 20, 20, 0.15);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Frank Ruhl Libre', 'Times New Roman', serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  body {
+    background:
+      radial-gradient(ellipse at top, var(--cream-light) 0%, var(--cream) 60%, var(--cream-dark) 100%);
+    background-attachment: fixed;
+  }
+  /* Decorative tribal border pattern */
+  .ornamental-border {
+    height: 28px;
+    background-image:
+      repeating-linear-gradient(90deg,
+        var(--burgundy) 0, var(--burgundy) 8px,
+        transparent 8px, transparent 16px,
+        var(--burgundy) 16px, var(--burgundy) 18px,
+        transparent 18px, transparent 28px);
+    background-size: 28px 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .ornamental-border::before {
+    content: '◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖ ◆ ❖';
+    position: absolute;
+    inset: 0;
+    color: var(--gold);
+    font-size: 16px;
+    letter-spacing: 4px;
+    text-align: center;
+    line-height: 28px;
+    background: var(--burgundy-dark);
+    opacity: 1;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  header {
+    background: var(--cream-light);
+    padding: 0;
+    position: relative;
+    border-bottom: 1px solid var(--burgundy);
+  }
+  .header-inner {
+    text-align: center;
+    padding: 32px 20px 28px;
+    background:
+      radial-gradient(ellipse at center, var(--cream-light) 0%, var(--cream) 100%);
+  }
+  .logo {
+    width: 180px;
+    height: 110px;
+    margin: 0 auto 12px;
+    display: block;
+  }
+  .site-title {
+    font-family: 'Cinzel', 'Frank Ruhl Libre', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--burgundy);
+    margin: 8px 0 4px;
+    letter-spacing: 1px;
+  }
+  .site-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    color: var(--burgundy-light);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .header-divider {
+    margin: 14px auto 0;
+    width: 280px;
+    height: 18px;
+    color: var(--gold-dark);
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 6px;
+  }
+  /* Main container - parchment style */
+  .container {
+    max-width: 1200px;
+    margin: 28px auto;
+    padding: 0 16px;
+  }
+  .panel {
+    background: var(--paper);
+    border: 2px solid var(--burgundy);
+    border-radius: 4px;
+    padding: 28px;
+    box-shadow: 0 4px 20px var(--shadow);
+    position: relative;
+  }
+  .panel::before, .panel::after {
+    content: '';
+    position: absolute;
+    width: 22px; height: 22px;
+    border: 2px solid var(--gold-dark);
+  }
+  .panel::before { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+  .panel::after { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+
+  /* Stats bar */
+  .stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    flex: 1;
+    min-width: 140px;
+    background: var(--cream-light);
+    border: 1.5px solid var(--burgundy);
+    padding: 14px 16px;
+    text-align: center;
+    border-radius: 3px;
+  }
+  .stat-card .num {
+    font-family: 'Cinzel', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--burgundy);
+    display: block;
+    line-height: 1;
+  }
+  .stat-card .label {
+    font-size: 13px;
+    color: var(--green-dark);
+    margin-top: 6px;
+    display: block;
+    letter-spacing: 1px;
+  }
+  .stat-card.borrowed .num { color: var(--gold-dark); }
+  .stat-card.notavail .num { color: var(--green-dark); }
+
+  /* Toolbar */
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .search-box {
+    flex: 2;
+    min-width: 220px;
+    position: relative;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 11px 38px 11px 14px;
+    border: 1.5px solid var(--burgundy);
+    background: var(--cream-light);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 16px;
+    border-radius: 3px;
+    direction: rtl;
+  }
+  .search-box::after {
+    content: '⌕';
+    position: absolute;
+    right: 12px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--burgundy);
+    font-size: 18px;
+    pointer-events: none;
+  }
+  select, button, input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="password"], textarea {
+    font-family: inherit;
+    font-size: 15px;
+  }
+  .filter-select {
+    padding: 11px 14px;
+    border: 1.5px solid var(--burgundy);
+    background: var(--cream-light);
+    color: var(--ink);
+    border-radius: 3px;
+    cursor: pointer;
+    min-width: 130px;
+  }
+  button {
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+  .btn-primary {
+    padding: 11px 22px;
+    background: var(--burgundy);
+    color: var(--cream-light);
+    border: 1.5px solid var(--burgundy-dark);
+    letter-spacing: 0.5px;
+  }
+  .btn-primary:hover { background: var(--burgundy-dark); }
+  .btn-secondary {
+    padding: 11px 18px;
+    background: var(--cream-light);
+    color: var(--burgundy);
+    border: 1.5px solid var(--burgundy);
+  }
+  .btn-secondary:hover { background: var(--cream-dark); }
+  .btn-ghost {
+    padding: 9px 16px;
+    background: transparent;
+    color: var(--burgundy);
+    border: 1px solid var(--burgundy-light);
+  }
+  .btn-ghost:hover { background: var(--cream-light); }
+  .btn-danger {
+    padding: 9px 14px;
+    background: transparent;
+    color: var(--burgundy-dark);
+    border: 1px solid var(--burgundy);
+  }
+  .btn-danger:hover { background: var(--burgundy); color: var(--cream-light); }
+  .btn-gold {
+    padding: 11px 22px;
+    background: var(--gold);
+    color: var(--burgundy-dark);
+    border: 1.5px solid var(--gold-dark);
+    font-weight: 700;
+  }
+  .btn-gold:hover { background: var(--gold-dark); color: var(--cream-light); }
+
+  /* Mode banner */
+  .mode-banner {
+    margin-bottom: 18px;
+    padding: 12px 18px;
+    background: var(--cream-light);
+    border: 1.5px solid var(--gold-dark);
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .mode-banner.admin { border-color: var(--burgundy); background: linear-gradient(90deg, var(--paper), var(--cream-light)); }
+  .mode-banner .label {
+    font-family: 'Cinzel', serif;
+    color: var(--burgundy);
+    letter-spacing: 1px;
+    font-size: 14px;
+  }
+  .mode-banner.admin .label::before { content: '🔓 '; }
+  .mode-banner:not(.admin) .label::before { content: '👁 '; }
+
+  /* Table */
+  .books-wrapper {
+    overflow-x: auto;
+    border: 1.5px solid var(--burgundy);
+    border-radius: 3px;
+    background: var(--cream-light);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+  }
+  thead th {
+    background: var(--burgundy);
+    color: var(--cream-light);
+    padding: 12px 10px;
+    text-align: right;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    border-bottom: 2px solid var(--gold-dark);
+  }
+  tbody td {
+    padding: 11px 10px;
+    border-bottom: 1px solid var(--cream-dark);
+    vertical-align: middle;
+    font-size: 14px;
+  }
+  tbody tr:hover { background: var(--cream); }
+  tbody tr.borrowed { background: rgba(212, 168, 75, 0.08); }
+  tbody tr.borrowed:hover { background: rgba(212, 168, 75, 0.18); }
+  tbody tr.not_for_borrowing { background: rgba(74, 93, 58, 0.06); }
+  tbody tr.overdue { background: rgba(139, 48, 48, 0.12); }
+  tbody tr.overdue:hover { background: rgba(139, 48, 48, 0.2); }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .badge.available { background: #C8D6B0; color: var(--green-dark); border: 1px solid var(--green); }
+  .badge.borrowed { background: #F0D9A0; color: var(--gold-dark); border: 1px solid var(--gold-dark); }
+  .badge.not_for_borrowing { background: var(--cream-dark); color: var(--ink); border: 1px solid var(--burgundy-light); }
+  .badge.overdue { background: #E8B0B0; color: var(--burgundy-dark); border: 1px solid var(--burgundy); }
+
+  .book-title {
+    font-weight: 700;
+    color: var(--burgundy-dark);
+    font-size: 15px;
+  }
+  .book-author {
+    font-size: 13px;
+    color: var(--ink);
+    opacity: 0.75;
+  }
+  .borrower-info {
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .borrower-info .name { font-weight: 600; }
+  .borrower-info .meta { opacity: 0.7; font-size: 12px; }
+  .row-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .row-actions button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(58, 31, 15, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--paper);
+    border: 2px solid var(--burgundy);
+    border-radius: 4px;
+    max-width: 580px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 28px;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  }
+  .modal::before, .modal::after {
+    content: '';
+    position: absolute;
+    width: 22px; height: 22px;
+    border: 2px solid var(--gold-dark);
+  }
+  .modal::before { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+  .modal::after { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+  .modal h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--burgundy);
+    margin: 0 0 18px;
+    font-size: 24px;
+    text-align: center;
+    border-bottom: 1px solid var(--gold-dark);
+    padding-bottom: 12px;
+  }
+  .modal-close {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: var(--burgundy);
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 8px;
+  }
+  .field {
+    margin-bottom: 14px;
+  }
+  .field label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: var(--burgundy);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid var(--burgundy-light);
+    background: var(--cream-light);
+    color: var(--ink);
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 15px;
+    direction: rtl;
+  }
+  .field textarea { min-height: 70px; resize: vertical; }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ink);
+    opacity: 0.65;
+    font-style: italic;
+  }
+  .login-form {
+    text-align: center;
+  }
+  .login-form input {
+    text-align: center;
+    letter-spacing: 4px;
+    font-size: 18px;
+  }
+  .hint {
+    font-size: 12px;
+    color: var(--ink);
+    opacity: 0.65;
+    margin-top: 8px;
+    text-align: center;
+  }
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--burgundy);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 3px;
+    font-size: 12px;
+  }
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    background: var(--burgundy);
+    color: var(--cream-light);
+    padding: 12px 22px;
+    border-radius: 3px;
+    border: 1.5px solid var(--gold);
+    z-index: 200;
+    transition: transform 0.3s;
+    font-size: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 700px) {
+    .site-title { font-size: 28px; }
+    .panel { padding: 18px; }
+    .field-row { grid-template-columns: 1fr; }
+    .stat-card { min-width: 100px; }
+    .stat-card .num { font-size: 22px; }
+    thead th, tbody td { padding: 8px 6px; font-size: 12.5px; }
+  }
+</style>
+</head>
+<body>
+  <div class="ornamental-border"></div>
+  <header>
+    <div class="header-inner">
+      <svg class="logo" viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="dots" patternUnits="userSpaceOnUse" width="14" height="14">
+            <circle cx="7" cy="7" r="1.4" fill="#6B1F1F"/>
+          </pattern>
+        </defs>
+        <!-- Outer diamond -->
+        <polygon points="180,18 348,110 180,202 12,110" fill="none" stroke="#6B1F1F" stroke-width="6"/>
+        <!-- Inner diamond -->
+        <polygon points="180,38 322,110 180,182 38,110" fill="none" stroke="#6B1F1F" stroke-width="2"/>
+        <!-- Decorative dots between -->
+        <g fill="#6B1F1F">
+          <circle cx="180" cy="28" r="3"/>
+          <circle cx="335" cy="110" r="3"/>
+          <circle cx="180" cy="192" r="3"/>
+          <circle cx="25" cy="110" r="3"/>
+        </g>
+        <!-- Top ornament -->
+        <path d="M 150,68 Q 180,52 210,68" fill="none" stroke="#6B1F1F" stroke-width="2"/>
+        <path d="M 156,72 Q 180,60 204,72" fill="none" stroke="#6B1F1F" stroke-width="1.5"/>
+        <!-- Bottom ornament -->
+        <path d="M 150,156 Q 180,170 210,156" fill="none" stroke="#6B1F1F" stroke-width="2"/>
+        <path d="M 156,150 Q 180,162 204,150" fill="none" stroke="#6B1F1F" stroke-width="1.5"/>
+        <!-- Side ornaments -->
+        <text x="60" y="115" font-family="serif" font-size="18" fill="#6B1F1F" text-anchor="middle">❖</text>
+        <text x="300" y="115" font-family="serif" font-size="18" fill="#6B1F1F" text-anchor="middle">❖</text>
+        <!-- Title -->
+        <text x="180" y="118" font-family="Cinzel, serif" font-size="38" font-weight="700" fill="#6B1F1F" text-anchor="middle" letter-spacing="3">CANTA</text>
+        <line x1="100" y1="128" x2="260" y2="128" stroke="#6B1F1F" stroke-width="1"/>
+        <text x="180" y="148" font-family="Cinzel, serif" font-size="14" font-style="italic" fill="#6B1F1F" text-anchor="middle">- Art Café -</text>
+      </svg>
+      <h1 class="site-title">ספרייה קהילתית</h1>
+      <p class="site-subtitle">Library at the Canta</p>
+      <div class="header-divider">❖ ◆ ❖ ◆ ❖ ◆ ❖</div>
+    </div>
+  </header>
+  <div class="ornamental-border"></div>
+
+  <div class="container">
+    <div class="panel">
+      <!-- Mode Banner -->
+      <div id="mode-banner" class="mode-banner">
+        <span class="label" id="mode-label">תצוגה ציבורית - קריאה בלבד</span>
+        <div>
+          <button class="btn-secondary" id="btn-toggle-mode">כניסת אחראית</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat-card">
+          <span class="num" id="stat-total">0</span>
+          <span class="label">סה״כ ספרים</span>
+        </div>
+        <div class="stat-card">
+          <span class="num" id="stat-available">0</span>
+          <span class="label">פנויים להשאלה</span>
+        </div>
+        <div class="stat-card borrowed">
+          <span class="num" id="stat-borrowed">0</span>
+          <span class="label">מושאלים כרגע</span>
+        </div>
+        <div class="stat-card notavail">
+          <span class="num" id="stat-overdue">0</span>
+          <span class="label">באיחור / לא להשאלה</span>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="search-box">
+          <input type="text" id="search" placeholder="חיפוש לפי שם הספר, מחבר או משאיל...">
+        </div>
+        <select id="filter-status" class="filter-select">
+          <option value="">כל הסטטוסים</option>
+          <option value="available">פנוי</option>
+          <option value="borrowed">מושאל</option>
+          <option value="not_for_borrowing">לא להשאלה</option>
+          <option value="overdue">באיחור</option>
+        </select>
+        <select id="filter-language" class="filter-select">
+          <option value="">כל השפות</option>
+        </select>
+        <select id="filter-category" class="filter-select">
+          <option value="">כל הקטגוריות</option>
+        </select>
+        <button class="btn-ghost" id="btn-clear-filters">נקה סינון</button>
+      </div>
+
+      <!-- Admin actions -->
+      <div class="toolbar admin-only" style="display:none">
+        <button class="btn-primary" id="btn-add-book">+ הוספת ספר חדש</button>
+        <button class="btn-secondary" id="btn-export-json">ייצוא JSON</button>
+        <button class="btn-secondary" id="btn-export-csv">ייצוא Excel/CSV</button>
+        <button class="btn-secondary" id="btn-import">ייבוא נתונים</button>
+        <input type="file" id="file-import" accept=".json,.csv" style="display:none">
+        <button class="btn-ghost" id="btn-history">היסטוריית השאלות</button>
+      </div>
+
+      <!-- Books table -->
+      <div class="books-wrapper">
+        <table id="books-table">
+          <thead>
+            <tr>
+              <th>הספר</th>
+              <th>שפה</th>
+              <th>קטגוריה</th>
+              <th>סטטוס</th>
+              <th>פרטי השאלה</th>
+              <th>בעלים</th>
+              <th class="admin-only" style="display:none">פעולות</th>
+            </tr>
+          </thead>
+          <tbody id="books-tbody"></tbody>
+        </table>
+        <div id="empty-msg" class="empty" style="display:none">לא נמצאו ספרים התואמים לחיפוש</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Login -->
+  <div class="modal-overlay" id="modal-login">
+    <div class="modal" style="max-width:420px">
+      <button class="modal-close" data-close>×</button>
+      <h2>כניסת אחראית</h2>
+      <form id="login-form" class="login-form">
+        <div class="field">
+          <label>סיסמה</label>
+          <input type="password" id="login-password" required autocomplete="current-password">
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">כניסה</button>
+        </div>
+        <div class="hint">סיסמה ראשונית: <strong>canta</strong> (ניתן לשנות בהגדרות)</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add/Edit Book -->
+  <div class="modal-overlay" id="modal-book">
+    <div class="modal">
+      <button class="modal-close" data-close>×</button>
+      <h2 id="book-modal-title">הוספת ספר חדש</h2>
+      <form id="book-form">
+        <input type="hidden" id="book-id">
+        <div class="field-row">
+          <div class="field">
+            <label>שם הספר</label>
+            <input type="text" id="book-title" required>
+          </div>
+          <div class="field">
+            <label>מחבר</label>
+            <input type="text" id="book-author">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>שפה</label>
+            <select id="book-language">
+              <option value="Hebrew">עברית</option>
+              <option value="English">אנגלית</option>
+              <option value="Spanish">ספרדית</option>
+              <option value="Portuguese">פורטוגזית</option>
+              <option value="International">בינלאומי</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>קטגוריה</label>
+            <select id="book-category">
+              <option value="adults">מבוגרים</option>
+              <option value="kids & teens">ילדים ונוער</option>
+              <option value="healing">ריפוי</option>
+              <option value="educational">חינוכי</option>
+              <option value="music">מוזיקה</option>
+              <option value="game">משחק</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>בעלים</label>
+            <select id="book-owner">
+              <option value="RT">RT</option>
+              <option value="Y&B">Y&B</option>
+              <option value="">אחר / ללא</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>סטטוס</label>
+            <select id="book-status">
+              <option value="available">פנוי</option>
+              <option value="borrowed">מושאל</option>
+              <option value="not_for_borrowing">לא להשאלה</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">שמירה</button>
+          <button type="button" class="btn-ghost" data-close>ביטול</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Borrow -->
+  <div class="modal-overlay" id="modal-borrow">
+    <div class="modal">
+      <button class="modal-close" data-close>×</button>
+      <h2 id="borrow-modal-title">השאלת ספר</h2>
+      <form id="borrow-form">
+        <input type="hidden" id="borrow-book-id">
+        <div class="field">
+          <label>שם הספר</label>
+          <input type="text" id="borrow-book-title" disabled>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>שם המשאיל *</label>
+            <input type="text" id="borrow-name" required>
+          </div>
+          <div class="field">
+            <label>טלפון</label>
+            <input type="tel" id="borrow-phone" placeholder="050-1234567">
+          </div>
+        </div>
+        <div class="field">
+          <label>אימייל</label>
+          <input type="email" id="borrow-email">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>תאריך השאלה *</label>
+            <input type="date" id="borrow-date" required>
+          </div>
+          <div class="field">
+            <label>צפי החזרה</label>
+            <input type="date" id="borrow-expected">
+          </div>
+        </div>
+        <div class="field">
+          <label>הערות</label>
+          <textarea id="borrow-notes" placeholder="לדוגמה: הספר במצב לא טוב, או הוחזר עם דף קרוע..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">אישור השאלה</button>
+          <button type="button" class="btn-ghost" data-close>ביטול</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Return -->
+  <div class="modal-overlay" id="modal-return">
+    <div class="modal">
+      <button class="modal-close" data-close>×</button>
+      <h2>החזרת ספר</h2>
+      <div id="return-summary" style="background:var(--cream-light); padding:14px; border:1px solid var(--burgundy-light); border-radius:3px; margin-bottom:14px;"></div>
+      <form id="return-form">
+        <input type="hidden" id="return-book-id">
+        <div class="field">
+          <label>הערות החזרה (אופציונלי)</label>
+          <textarea id="return-notes" placeholder="האם הספר חזר במצב טוב? הערות נוספות..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">אישור החזרה</button>
+          <button type="button" class="btn-ghost" data-close>ביטול</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: History -->
+  <div class="modal-overlay" id="modal-history">
+    <div class="modal" style="max-width:760px">
+      <button class="modal-close" data-close>×</button>
+      <h2>היסטוריית השאלות</h2>
+      <div class="toolbar" style="margin-bottom:14px">
+        <input type="text" id="history-search" class="search-box" style="flex:1; padding:9px; border:1.5px solid var(--burgundy); background:var(--cream-light); border-radius:3px;" placeholder="חיפוש בהיסטוריה...">
+        <button class="btn-ghost" id="btn-clear-history">ניקוי היסטוריה</button>
+      </div>
+      <div class="books-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>תאריך</th>
+              <th>פעולה</th>
+              <th>ספר</th>
+              <th>משאיל</th>
+              <th>הערות</th>
+            </tr>
+          </thead>
+          <tbody id="history-tbody"></tbody>
+        </table>
+        <div id="history-empty" class="empty" style="display:none">אין רשומות בהיסטוריה</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ornamental-border" style="margin-top:30px"></div>
+  <footer>
+    ❖ ◆ ❖  CANTA ART CAFÉ  ❖ ◆ ❖
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+/* ============ DATA ============ */
+const INITIAL_BOOKS = [{"id": 1, "title": "זה המקום", "author": "אהוד בנאי", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 2, "title": "ויקטוריה", "author": "סמי מיכאל", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 3, "title": "ספר אגדות הבדידות", "author": "רועי שנער", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 4, "title": "הורות כמעשה ניסים", "author": "שי אור", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 5, "title": "בלי גבולות", "author": "שי אור", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "11.1.26", "borrower": "סיוון", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 6, "title": "סודות האהבה של הטאו (נשים)", "author": "מנאטק ציאה ומייקל ווין", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 7, "title": "סודות האהבה של הטאו (גברים)", "author": "מנאטק ציאה ומייקל ווין", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 8, "title": "פרא", "author": "גבי ניצן", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 9, "title": "התקדשות", "author": "אליזבט הייך", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "ברק", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 10, "title": "זן ואמנות אחזקת האופנוע", "author": "רוברט מ. פירסיג", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "5.4.26", "borrower": "אורי רגב", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 11, "title": "הנביא", "author": "ג'ובראן חליל ג'ובראן", "language": "Hebrew", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 12, "title": "Regina", "author": "Antonio Velasco Pina", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 13, "title": "The heart of the buddha's teaching", "author": "Thich Nhat Hanh", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 14, "title": "אשה יודעת", "author": "אורית פיול אור", "language": "Hebrew", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 15, "title": "כישופים ומכשפות טובות", "author": "אורית פיול אור", "language": "Hebrew", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 16, "title": "כוחו של הרגע הזה", "author": "אקהרט טול", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "2.3.26", "borrower": "זהר וגלעד", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 17, "title": "דרך האמן", "author": "ג'וליה קמרון", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 18, "title": "נרניה - המסע בדורך השחר", "author": "ק\"ס לואיס", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "31.12.25", "borrower": "אפרת ושרון", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 19, "title": "סיפורי נאפי", "author": "פרסי בולצ'ילד", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 20, "title": "סיפורים גרינלנדיים", "author": "הנרי רינק", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 21, "title": "El misterio del timbre", "author": "Begona Oro", "language": "Spanish", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 22, "title": "ארנקטרטוק - האיש שהתגלגל בכל בעלי החיים + דמויות נייר", "author": "", "language": "Hebrew", "category": "game", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 23, "title": "לאו דזה אמר", "author": "צאי ג'י גונג", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 24, "title": "ארכיאולוגים במקרה", "author": "שרה אלבי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 25, "title": "הרעשנים", "author": "קרלה סאקאס שרופשייר", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 26, "title": "דונו - מגלה מה דביק ומה מצחיק", "author": "תמר הוכשטטר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 27, "title": "דונו - וחיבת ליל הצפרדעים", "author": "תמר הוכשטטר", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 28, "title": "פלאי הטבע - בעלי כונכיות", "author": "ספריית פלאי הטבע", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 29, "title": "פלאי הטבע - חיות קדמוניות", "author": "ספריית פלאי הטבע", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "11.1.26", "borrower": "זהר וגלעד", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 30, "title": "פלאי הטבע - מפריסי פרסה", "author": "ספריית פלאי הטבע", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 31, "title": "פלאי הטבע - יונקים שונים ומשונים", "author": "ספריית פלאי הטבע", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 32, "title": "איזדורה מון - פוגשת את פיית השיניים", "author": "הרייט מונקסטר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 33, "title": "איזדורה מון - והכוכב הנופל", "author": "הרייט מונקסטר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 34, "title": "הרפתקאות הדוד אריה בג'ונגל הסיבירי", "author": "ינץ לוי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 35, "title": "הרפתקאות הדוד אריה ביערות הסהרה", "author": "ינץ לוי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "25.7.25", "borrower": "ג'ואנה ולואיזה", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 36, "title": "הרפתקאות הדוד אריה בערבות רומניה", "author": "ינץ לוי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 37, "title": "הרפתקאות הדוד אריה באוקינוס הטיבטי", "author": "ינץ לוי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 38, "title": "הרפתקאות הדוד אריה בקוטב המערבי", "author": "ינץ לוי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 39, "title": "הרפתקאות הדוד אריה במדבר השויצרי", "author": "ינץ לוי", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "25.7.25", "borrower": "ג'ואנה ולואיזה", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 40, "title": "תוים בצבעים", "author": "", "language": "Hebrew", "category": "educational", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 41, "title": "עלי רוחי", "author": "שמעון לב טהור", "language": "International", "category": "music", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 42, "title": "el ABC del charango", "author": "Ernesto cavour", "language": "Spanish", "category": "educational", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 43, "title": "כל החיים אהבה - סיפורה של כוונה טובה", "author": "דולי גרודר - ינאי", "language": "Hebrew", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 44, "title": "Solfeges", "author": "Henry Lemoine", "language": "English", "category": "educational", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 45, "title": "world's favorite solos for classic guitar", "author": "Harvey Vinson", "language": "English", "category": "educational", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 46, "title": "Guitar aerobics", "author": "Tory Nelson", "language": "English", "category": "educational", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 47, "title": "Alfred's basic adult piano course", "author": "", "language": "English", "category": "educational", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 48, "title": "די לכאב", "author": "קלר ואמבר דייויס", "language": "Hebrew", "category": "healing", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 49, "title": "רפא את גופך", "author": "לואיז היי", "language": "Hebrew", "category": "healing", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 50, "title": "ספר הג'ונגל", "author": "רודיארד קיפלינג", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 51, "title": "בלה דונה - בלה המכושפת", "author": "רות סימס", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 52, "title": "בלה דונה - סמטת קובן", "author": "רות סימס", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "31.12.25", "borrower": "אפרת ושרון", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 53, "title": "בלה דונה - מכשפה בתחילת דרכה", "author": "רות סימס", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 54, "title": "בלה דונה - יותר מדי קסמים", "author": "רות סימס", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "31.12.25", "borrower": "אפרת ושרון", "email": "", "phone": "528716666.0", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 55, "title": "הלכי היער - קריג משנה צורה", "author": "קטיה ברנדיס", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 56, "title": "הרואה", "author": "יובל אטיאס", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 57, "title": "הענק הכי גנדרן בעולם", "author": "", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 58, "title": "הצילו", "author": "", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 59, "title": "שבלול בצנצנת", "author": "", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 60, "title": "ניחוחות מרפא", "author": "ואלרי אן וורווד", "language": "Hebrew", "category": "healing", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 61, "title": "the secret life of trees", "author": "Colin Tudge", "language": "English", "category": "adults", "status": "borrowed", "borrowDate": "11.7.25", "borrower": "virginia ", "email": "", "phone": "351968961682.0", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 62, "title": "The forager's calendar", "author": "John Wright", "language": "English", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 63, "title": "Mushrooms", "author": "Roger Phillips", "language": "English", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 64, "title": "Wild food", "author": "Roger Phillips", "language": "English", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 65, "title": "Palavras essenciais", "author": "Paulo Coelho", "language": "Portuguese", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 66, "title": "Dalai Lama", "author": "Lauren Alderfer", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 67, "title": "Journey to the center of the earth", "author": "Jules Verne", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 68, "title": "Dubliners", "author": "James Joyce", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 69, "title": "Guia para ficar a saber ainda menos sobre as mulheres", "author": "Isabel Stilwell", "language": "Portuguese", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 70, "title": "Healing with nature", "author": "susan s. scott", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 71, "title": "Healing magic", "author": "Robin Rose Bennett", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 72, "title": "treat your child the natural way", "author": "Amanda Cochrane", "language": "English", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 73, "title": "ארץ חדשה - להתעורר לתכלית חייך", "author": "אקהרט טולה", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "2.3.26", "borrower": "זהר וגלעד", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 74, "title": "מעגל אבנים", "author": "ג'ואן דאר למברט", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 75, "title": "מעגל אבנים", "author": "ג'ואן דאר למברט", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "5.4.26", "borrower": "שירה ולהלה", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 76, "title": "ספר המתים והחיים הטיבטי", "author": "סוגיאל רינפוצ'ה", "language": "Hebrew", "category": "adults", "status": "not_for_borrowing", "borrowDate": "5.4.26", "borrower": "נמרוד ועפרי", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 77, "title": "האוהל האדום", "author": "אניטה דיאמנט", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 78, "title": "מעוף אל מעבר לחופש", "author": "איילין קאדי", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 79, "title": "ממערב לירח", "author": "מיכל שלו", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 80, "title": "Banksy wall and piece", "author": "", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 81, "title": "The moor's last sigh", "author": "Salman Rushdie", "language": "English", "category": "adults", "status": "borrowed", "borrowDate": "20.11.25", "borrower": "ברק", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 82, "title": "the natural guide to medicinal herbs and plants", "author": "Frantisek Stary", "language": "English", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 83, "title": "Intimate moments with god", "author": "Solly Ozrovech", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 84, "title": "The summons", "author": "John Grisham", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 85, "title": "Chemistry of the cosmos", "author": "George W. Carry", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 86, "title": "Temples of the black sun", "author": "Veerle Phara", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 87, "title": "Fire in the mind", "author": "George Johnson", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 88, "title": "The bhagavadgita", "author": "S. radhakrishnan", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 89, "title": "Remembering portal", "author": "Margery Withers", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 90, "title": "Miracles happen", "author": "Brian L. Weiss", "language": "English", "category": "adults", "status": "borrowed", "borrowDate": "16.11.25", "borrower": "janel coburn", "email": "", "phone": "914155064.0", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 91, "title": "The language of emotions", "author": "Karla McLaren", "language": "English", "category": "adults", "status": "borrowed", "borrowDate": "16.11.25", "borrower": "Pavel", "email": "", "phone": "935950533.0", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 92, "title": "The 12 stages of healing", "author": "Donald M. Epstein", "language": "English", "category": "adults", "status": "available", "borrowDate": "11.1.26", "borrower": "האנס ומריקה", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 93, "title": "Alice in wonderland", "author": "Lewis Carroll", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 94, "title": "Chant and be happy", "author": "A. C. Bhaktivedanta Swami Prabhupada", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 95, "title": "A sense of belonging", "author": "Erica James", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 96, "title": "The clan of the cave bear", "author": "Jean M. Auel", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 97, "title": "Mrs Dalloway", "author": "Virginia Woolf", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 98, "title": "The complete crystal guidebook", "author": "Uma silbaey", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 99, "title": "Garden Friends", "author": "Ed Ikin", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 100, "title": "The writings of Gandhi", "author": "Ronald Duncan", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 101, "title": "The return of the young prince", "author": "A.G. Roemmers", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 102, "title": "The holy sinner", "author": "Thomas Mann", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 103, "title": "Home body", "author": "Rupi Kaur", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 104, "title": "בסוף יצא לך ארנב", "author": "ניר דובדבני", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "28.3.26", "borrower": "סרג'יו", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 105, "title": "קיצור תולדות האנושות", "author": "יובל נח הררי", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 106, "title": "סוף המרוץ", "author": "מישקה בן דוד", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 107, "title": "אהבה אסורה בפטרבורג", "author": "מישקה בן דוד", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 108, "title": "המצב האנושי", "author": "חנה ארנדט", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 109, "title": "האנטומיה שך חיי הבר", "author": "ג'וליה רוטמן", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 110, "title": "מתנת הכעס", "author": "ארון גנדי", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 111, "title": "חולות נודדים", "author": "שרון צוהר", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 112, "title": "לכל אדם דרך משלו בעולם", "author": "ז'אן פול דובואה", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 113, "title": "בית בפורטוגל", "author": "יגאל סרנה", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 114, "title": "מטורפת", "author": "קלואי אספוזיטו", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 115, "title": "קול הידיעה", "author": "דון מיגל רואיס", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 116, "title": "השחקן", "author": "דון מיגל רואיס", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 117, "title": "השידוך", "author": "איב האריס", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 118, "title": "והיום איננו כלה", "author": "צ'ינגיס אייטמטוב", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 119, "title": "וזרח השמש", "author": "ארנסט המינגוויי", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 120, "title": "סוס אחד נכנס לבר", "author": "דויד גרוסמן", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 121, "title": "המתיקות שבשכחה", "author": "קריסטין הרמל", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 122, "title": "מסר האנשים האמיתיים", "author": "מרלו מורגאן", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 123, "title": "נרקיס וגולדמונד", "author": "הרמן הסה", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 124, "title": "מהפכת הכושר הגופני", "author": "ד\"ר מיכאל הרלינג", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 125, "title": "להיות ראוי", "author": "אמתי מגד", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 126, "title": "אחדות עם אלוהים", "author": "ניל דונאלד וולש", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 127, "title": "שלוש השאלות", "author": "דון מיגל רואיס", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 128, "title": "העץ שאף ילד לא דמין", "author": "אתגר קרת ושירה גפן", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 129, "title": "ארבע ההסכמות", "author": "דון מיגל רואיס", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "5.4.26", "borrower": "אורי רגב", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 130, "title": "עשרים מפתחות הזמן של גלי המאיה", "author": "טליה טוקר", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 131, "title": "ערות - נשים מדברות מיניות", "author": "תמר מור סלע", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 132, "title": "כישופים ומכשפות טובות", "author": "אורית פיול אור", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 133, "title": "אשה יודעת", "author": "אורית פיול אור", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 134, "title": "שתהיי לי הסכין", "author": "דויד גרוסמן", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 135, "title": "שיחות עם מלאכים", "author": "ד\"ר מייקל אבראמס", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 136, "title": "עקרון הרצף", "author": "ג'ין לידלוף", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 137, "title": "תקשורת לא אלימה ", "author": "ד\"ר מרשאל רוזנברג", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "Y&B", "expectedReturn": "", "notes": ""}, {"id": 138, "title": "מאיר עיניים", "author": "מאיר שניידר", "language": "Hebrew", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 139, "title": "michelle and muigel", "author": "lilach lalush", "language": "English", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 140, "title": "שישה עשר חכמים", "author": "גאולה גלילי", "language": "Hebrew", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 141, "title": "מטפחת כחולה הופכת לעומק באר", "author": "סדנאות כתיבה", "language": "Hebrew", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 142, "title": "מתאווה לאהבה", "author": "דורית לובן", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 143, "title": "לקלף את הארטישוק", "author": "ונו סנת", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 144, "title": "כך שמעתי", "author": "יעקב רז", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 145, "title": "לעלות אוקטבה", "author": "תמי קצין", "language": "Hebrew", "category": "music", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 146, "title": "המוח והגוף", "author": "שרון פרומיסלו", "language": "Hebrew", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 147, "title": "פיתוח שמיעה מוסיקלית", "author": "ד\"ר יפים יופי", "language": "Hebrew", "category": "music", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 148, "title": "צ'אקרות", "author": "הריש ג'והרי", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "9.3.26", "borrower": "מאיר", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 149, "title": "הכל בקול", "author": "אוה לאוטרשטיין - פיטליק", "language": "Hebrew", "category": "music", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 150, "title": "Easy flute solos", "author": "Jay Arnold", "language": "English", "category": "music", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 151, "title": "שעשועי תיאוריה 1", "author": "רבקה פלזנשטיין", "language": "Hebrew", "category": "music", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 152, "title": "שעשועי תיאוריה 2", "author": "רבקה פלזנשטיין", "language": "Hebrew", "category": "music", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 153, "title": "משפחת המומינים - זכונותיו של מומינאבא", "author": "טובה ינסון", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 154, "title": "בית הספר של ברבאבא", "author": "אנט טיסון וטלוס טילור", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 155, "title": "The music lesson", "author": "Victor L. Wooten", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 156, "title": "The spirit of music", "author": "Victor L. Wooten", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "RT", "expectedReturn": "", "notes": ""}, {"id": 157, "title": "שלדים ברכבת הטרנס סיבירית", "author": "גלילה רון פדר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 158, "title": "מנהרת הזמן - הצנחנית הנועזת", "author": "גלילה רון פדר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 159, "title": "מנהרת הזמן - מעפלים מגיעים לחופי הארץ", "author": "גלילה רון פדר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 160, "title": "מנהרת הזמן - המהנדס שהאיר את הארץ", "author": "גלילה רון פדר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 161, "title": "חבורת כח המוח - וג'ודי הקוסמת", "author": "זוהר אביב", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 162, "title": "great with child", "author": "Beth Ann Fennelly", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 163, "title": "מר ורטיגו", "author": "פול אוסטר", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "5.4.26", "borrower": "גיל ואריה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 164, "title": "שאנטראם", "author": "גרגורי דייוויד רוברטס", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 165, "title": "ילדת חוץ", "author": "נורית זרחי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 166, "title": "השטן והעלמה פריס", "author": "פאולו קואלו", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 167, "title": "שיר עירום", "author": "ללה (תרגום:הדס גלעד)", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 168, "title": "מישהו לרוץ איתו", "author": "דויד גרוסמן", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 169, "title": "מוות לסירוגין", "author": "ז'וזה סאראמאגו", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 170, "title": "מומו ", "author": "מיכאל אנדה", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "5.4.26", "borrower": "שירה ולהלה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 171, "title": "על העיוורון", "author": "ז'וזה סאראמאגו", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 172, "title": "דברי ימי מינור", "author": "ז'וזה סאראמאגו", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 173, "title": "מאה שנים של בדידות", "author": "גבריאל גרסיה מארקס", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "5.4.26", "borrower": "גיל ואריה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 174, "title": "לוויתנים שרים בעומק", "author": "רונה שפריר", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 175, "title": "זוכר כמעט הכל", "author": "אהוד בנאי", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 176, "title": "שמחה והנאה, ריפוי והגדרה", "author": "ליאב נאנדין יני", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 177, "title": "המכשפה מפורטובלו", "author": "פאולו קואלו", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 178, "title": "אמיל או על החינוך", "author": "ז'אן ז'אק רוסו", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 179, "title": "Just kids", "author": "Patti Smith", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 180, "title": "איגריין האמיצה", "author": "קורנליה פונקה", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 181, "title": "בית קטן בערבה", "author": "לורה אינגלס וילדר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "5.4.26", "borrower": "אורי רגב", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 182, "title": "כראמל - הנקמה II", "author": "מאירה ברנע-גולדברג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 183, "title": "כראמל - נער החידות III", "author": "מאירה ברנע-גולדברג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "1.12.25", "borrower": "דינה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 184, "title": "כראמל - האוצר הצהוב IV", "author": "מאירה ברנע-גולדברג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "1.12.25", "borrower": "דינה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 185, "title": "כראמל - היהלום האבוד V", "author": "מאירה ברנע-גולדברג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "3.1.26", "borrower": "דינה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 186, "title": "כראמל - תעלטמה כפולה VI", "author": "מאירה ברנע-גולדברג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 187, "title": "כראמל - סכנה בביצה VII", "author": "מאירה ברנע-גולדברג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 188, "title": "הרעיון של קריסטי", "author": "ריינה טלגמאייר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "7.1.26", "borrower": "להסה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 189, "title": "בלשי הביוב - נחושי נחשים", "author": "ג'ון פטריק גרין", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 190, "title": "סוכני מחנ\"ס", "author": "ג'ון פטריק גרין", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "5.4.26", "borrower": "אורי רגב", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 191, "title": "אווטאר כשף האויר האחרון - ההבטחה II", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 192, "title": "אווטאר כשף האויר האחרון - החיפוש I", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 193, "title": "אווטאר כשף האויר האחרון - החיפוש II", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 194, "title": "אווטאר כשף האויר האחרון - הקרע I", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "8.8.25", "borrower": "עפרה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 195, "title": "אווטאר כשף האויר האחרון - הקרע II", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "חסר", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 196, "title": "אווטאר כשף האויר האחרון - הקרע III", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "6.1.26", "borrower": "עפרי", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 197, "title": "אווטאר כשף האויר האחרון - צל וערפל I", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "5.4.26", "borrower": "מוריה וקאי", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 198, "title": "אווטאר כשף האויר האחרון - צל וערפל II", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 199, "title": "אווטאר כשף האויר האחרון - צל וערפל III", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 200, "title": "אווטאר כשף האויר האחרון - צפון ודרום I", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "חסר", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 201, "title": "אווטאר כשף האויר האחרון - צפון ודרום II", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "5.4.26", "borrower": "מוריה וקאי", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 202, "title": "אווטאר כשף האויר האחרון - צפון ודרום III", "author": "ג'ין לואן יאנג", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "5.4.26", "borrower": "מוריה וקאי", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 203, "title": "הרפתקאות חתול על ", "author": "ג'ורג' בירד והרולדהצ'ינס", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 204, "title": "התלמיד שנעלם מחצר בית הספר", "author": "דורון שנער", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 205, "title": "בילבי", "author": "אסטריד לינדגרן", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "5.4.26", "borrower": "נמרוד ועפרי", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 206, "title": "Garden Flowers", "author": "Christopher Lloyd", "language": "English", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 207, "title": "Celtic Crafts - The living tadition", "author": "David James", "language": "English", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 208, "title": "Drawing horses", "author": "Pitman art books", "language": "English", "category": "adults", "status": "not_for_borrowing", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 209, "title": "Healing society", "author": "Dr. seung heun lee", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 210, "title": "Earth, Water, Fire, Wind", "author": "Kiesha Crowther", "language": "English", "category": "adults", "status": "borrowed", "borrowDate": "24.10.25", "borrower": "סופיה (מעגל)", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 211, "title": "Creating healthy children", "author": "Karen Ranzi", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 212, "title": "Meditation", "author": "Osho", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 213, "title": "Ayurveda - the sience of self healing", "author": "Dr. Vasant Lad", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 214, "title": "The way of the priestess", "author": "Sarah Coxon", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 215, "title": "Towards Zero Conflict ", "author": "Amyn Dahya", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 216, "title": "Raising our Children raising ourselves", "author": "", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 217, "title": "The power of letting go", "author": "Patricia Carrington", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 218, "title": "Ayurveda for health and well being", "author": "Sally morning star", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 219, "title": "Reflexology", "author": "Louise Tucker", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 220, "title": "The best of Dire straits & Mark Knopfler", "author": "Hal Leonard", "language": "English", "category": "music", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 221, "title": "O Mandarim", "author": "Eca de Queiroz", "language": "Portuguese", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 222, "title": "Animal book", "author": "Rod Campbell", "language": "English", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 223, "title": "Os numeros", "author": "Jonny Lambert", "language": "Portuguese", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 224, "title": "Running from safety", "author": "Richard Bach", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 225, "title": "Shaman's wisdom within", "author": "Tony Samara", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 226, "title": "חגיגה בארץ המחזור", "author": "ענת גונן", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "25.7.25", "borrower": "ג'ואנה ולואיזה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 227, "title": "מבול נחש ושתי תבות - ספורי תנ\"ך לילדים", "author": "מאיר שלו", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 228, "title": "חזרה לגן עדן", "author": "חגית מאור", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 229, "title": "Reclaiming Childbirth as a right of passage", "author": "Rachel Reed", "language": "English", "category": "adults", "status": "borrowed", "borrowDate": "25.7.25", "borrower": "ג'ואנה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 230, "title": "להכנס לנעליה", "author": "ג'וג'ו מויס", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 231, "title": "כוחו של הרגע הזה - מדריך מעשי", "author": "אקהרט טול", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "12.11.25", "borrower": "מאיר", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 232, "title": "שיחון פורטוגזית", "author": "", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 233, "title": "שמאל ימין ומה שביניהם", "author": "אירית רושין", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 234, "title": "גדר, כבשה ואיש עם בעיה", "author": "יעל בירן", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 235, "title": "aniversario de arromba", "author": "disney junior", "language": "Spanish", "category": "kids & teens", "status": "borrowed", "borrowDate": "25.7.25", "borrower": "אפי בן דוד", "email": "לבדוק אם חזר", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 236, "title": "o regresso d o homem que mordeu o cao", "author": "Nuno Markl", "language": "Portuguese", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 237, "title": "נוילנד", "author": "אשכול נבו", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 238, "title": "ליבי - מה קרה לאיש עם הכלב?", "author": "הדס ליבוביץ'", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 239, "title": "רשימת המשאלות האחרונה של אמא", "author": "קאתי הופקינס", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 240, "title": "ארוכה הדרך הביתה", "author": "וויל נורת'", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 241, "title": "הספר לבני שלש", "author": "סופרים שונים", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 242, "title": "מה שצריך לקרות", "author": "אורלי קראוס-ויינר", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "1.10.25", "borrower": "רוני ואסף", "email": "לבדוק אם חזר", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 243, "title": "אייבי + בין ורוח הרפאים", "author": "אנני ברוז", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 244, "title": "האדם מחפש משמעות", "author": "ויקטור פראנקל", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 245, "title": "נסיכת המסיבות", "author": "מג קאבוט", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 246, "title": "להיות מעשן", "author": "גלילה רון פדר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 247, "title": "הארי פוטר", "author": "ג'יי קיי רולינג", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "7.1.26", "borrower": "נעמה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 248, "title": "יומנו של חנון - עשה זאת בעצמך", "author": "ג'ף קיני", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "6.1.26", "borrower": "רוני ואסף", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 249, "title": "יומנו של חנון - הקש האחרון", "author": "ג'ף קיני", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "7.1.26", "borrower": "נעמה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 250, "title": "יומנו של חנון - רודריק שולט", "author": "ג'ף קיני", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 251, "title": "יומנו של חנון - בית ההריסות", "author": "ג'ף קיני", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 252, "title": "הקומיקס המנוקד הראשון שלי", "author": "מעיין גרין", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 253, "title": "גלי ותעלומת הנסיכה", "author": "סמדר שיר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 254, "title": "הכוחות המיוחדים של שי", "author": "אשרת רומנו", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 255, "title": "לא רעים בכלל 1", "author": "אארון בליבי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 256, "title": "לא רעים בכלל 2", "author": "אארון בליבי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 257, "title": "לא רעים בכלל 3", "author": "אארון בליבי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 258, "title": "אלופי הספורט המופלאים", "author": "שלמה אבס", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 259, "title": "הבריחה מיערות הערפל", "author": "מיכאל אבס", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 260, "title": "סודות של אלופה", "author": "ירדן ג'רבי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 261, "title": "Blott on the landscape", "author": "Tom Sharpe", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 262, "title": "Ancestral Vices", "author": "Tom Sharpe", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 263, "title": "Tree men in a boat", "author": "Jerome K. Jerome", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 264, "title": "Vintage Stuff", "author": "Tom Sharpe", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 265, "title": "A confederacy of dunces", "author": "John Kennedy Toole", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 266, "title": "Scotland touring guide", "author": "Collins", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 267, "title": "טרזן 2", "author": "אדגר רייס ביראוס", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 268, "title": "טרזן 3", "author": "אדגר רייס ביראוס", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 269, "title": "טרזן 7", "author": "אדגר רייס ביראוס", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 270, "title": "ג'ינג'י - שומרי השכונה", "author": "גלילה רון פדר", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 271, "title": "אלוהים אתה שם? זאת אני מרגרט", "author": "ג'ודי בלום", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 272, "title": "אנשים נורמלים", "author": "סאלי רוני", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "5.4.26", "borrower": "גיל ואריה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 273, "title": "תיק אודסקי", "author": "נילי אסיא", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 274, "title": "שנה ליד הים", "author": "ג'ואן אנדרסון", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 275, "title": "הטבח", "author": "הארי קרסינג", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 276, "title": "מלאכים נופלים", "author": "טרייסי שבלייה", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 277, "title": "אסתר של הסיגריות", "author": "יוסי וקסמן", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 278, "title": "בבקשה תשגיחי על אמא", "author": "קיונג סוק שין", "language": "Hebrew", "category": "adults", "status": "borrowed", "borrowDate": "29.10.25", "borrower": "גיל", "email": "לבדוק אם חזר", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 279, "title": "Committed - a love story", "author": "Elizabeth Gilbert", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 280, "title": "The vortex", "author": "Esther & Jerry Hicks", "language": "English", "category": "adults", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 281, "title": "הדבון בלע סבון", "author": "יוסי אבולעפיה", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 282, "title": "החתולה עוברת דירה", "author": "דליה קרח-שגב", "language": "Hebrew", "category": "kids & teens", "status": "borrowed", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 283, "title": "איש הכלב", "author": "דאב פילקי", "language": "Hebrew", "category": "kids & teens", "status": "available", "borrowDate": "", "borrower": "", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 284, "title": "המטבח האנגלי של מיס אלייזה", "author": "אנאבל אבס", "language": "Hebrew", "category": "adults", "status": "available", "borrowDate": "5.4.26", "borrower": "איתמר בנדוד", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 285, "title": "pedro e o enigma dos piratas", "author": "", "language": "Portuguese", "category": "kids & teens", "status": "available", "borrowDate": "5.4.26", "borrower": "אורי רגב", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}, {"id": 286, "title": "A rapariga que bebeu a lua", "author": "Kelly Barnhill", "language": "Portuguese", "category": "kids & teens", "status": "available", "borrowDate": "9.4.26", "borrower": "תמרה", "email": "", "phone": "", "owner": "", "expectedReturn": "", "notes": ""}];
+const STORAGE_KEY = 'canta_library_v1';
+const HISTORY_KEY = 'canta_library_history_v1';
+const PASSWORD_KEY = 'canta_library_pwd_v1';
+const DEFAULT_PASSWORD = 'canta';
+
+let books = [];
+let history = [];
+let isAdmin = false;
+let editingId = null;
+
+/* ============ STORAGE ============ */
+function load() {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) {
+    try { books = JSON.parse(stored); }
+    catch(e) { books = [...INITIAL_BOOKS]; }
+  } else {
+    books = JSON.parse(JSON.stringify(INITIAL_BOOKS));
+    save();
+  }
+  const h = localStorage.getItem(HISTORY_KEY);
+  history = h ? JSON.parse(h) : [];
+}
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+}
+function saveHistory() {
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+}
+function getPassword() {
+  return localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
+}
+
+/* ============ HELPERS ============ */
+function todayISO() {
+  return new Date().toISOString().slice(0,10);
+}
+function formatDate(d) {
+  if (!d) return '';
+  // Try to handle multiple formats
+  if (/^\d{4}-\d{2}-\d{2}/.test(d)) {
+    const dt = new Date(d);
+    return `${dt.getDate()}.${dt.getMonth()+1}.${dt.getFullYear()%100}`;
+  }
+  return d;
+}
+function isOverdue(book) {
+  if (book.status !== 'borrowed') return false;
+  if (!book.expectedReturn) {
+    if (book.borrowDate) {
+      // Default 21 days if no expected return set
+      const d = parseLooseDate(book.borrowDate);
+      if (d) {
+        const limit = new Date(d.getTime() + 21*24*60*60*1000);
+        return new Date() > limit;
+      }
+    }
+    return false;
+  }
+  const exp = parseLooseDate(book.expectedReturn);
+  return exp && new Date() > exp;
+}
+function parseLooseDate(s) {
+  if (!s) return null;
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) return new Date(s);
+  // Try formats like 11.1.26 or 5.4.26
+  const m = s.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/);
+  if (m) {
+    let [_,d,mo,y] = m;
+    y = parseInt(y); if (y < 100) y += 2000;
+    return new Date(parseInt(y), parseInt(mo)-1, parseInt(d));
+  }
+  const d = new Date(s);
+  return isNaN(d) ? null : d;
+}
+function statusLabel(s) {
+  return {available: 'פנוי', borrowed: 'מושאל', not_for_borrowing: 'לא להשאלה'}[s] || s;
+}
+function categoryLabel(c) {
+  return {
+    'adults': 'מבוגרים', 'kids & teens': 'ילדים ונוער',
+    'healing': 'ריפוי', 'educational': 'חינוכי',
+    'music': 'מוזיקה', 'game': 'משחק'
+  }[c] || c;
+}
+function languageLabel(l) {
+  return {'Hebrew':'עברית','English':'אנגלית','Spanish':'ספרדית','Portuguese':'פורטוגזית','International':'בינלאומי'}[l] || l;
+}
+function logHistory(action, book, extra) {
+  history.unshift({
+    ts: new Date().toISOString(),
+    action: action,
+    bookId: book.id,
+    bookTitle: book.title,
+    borrower: extra?.borrower || book.borrower || '',
+    notes: extra?.notes || ''
+  });
+  if (history.length > 500) history = history.slice(0,500);
+  saveHistory();
+}
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+function nextId() {
+  return books.reduce((m,b) => Math.max(m, b.id||0), 0) + 1;
+}
+
+/* ============ RENDER ============ */
+function populateFilters() {
+  const langs = [...new Set(books.map(b => b.language).filter(Boolean))].sort();
+  const cats = [...new Set(books.map(b => b.category).filter(Boolean))].sort();
+  const langSel = document.getElementById('filter-language');
+  const catSel = document.getElementById('filter-category');
+  langSel.innerHTML = '<option value="">כל השפות</option>' +
+    langs.map(l => `<option value="${l}">${languageLabel(l)}</option>`).join('');
+  catSel.innerHTML = '<option value="">כל הקטגוריות</option>' +
+    cats.map(c => `<option value="${c}">${categoryLabel(c)}</option>`).join('');
+}
+
+function renderStats() {
+  document.getElementById('stat-total').textContent = books.length;
+  document.getElementById('stat-available').textContent =
+    books.filter(b => b.status === 'available').length;
+  document.getElementById('stat-borrowed').textContent =
+    books.filter(b => b.status === 'borrowed').length;
+  const overdue = books.filter(b => isOverdue(b)).length;
+  const notLending = books.filter(b => b.status === 'not_for_borrowing').length;
+  document.getElementById('stat-overdue').textContent = overdue + ' / ' + notLending;
+}
+
+function getFiltered() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const fs = document.getElementById('filter-status').value;
+  const fl = document.getElementById('filter-language').value;
+  const fc = document.getElementById('filter-category').value;
+  return books.filter(b => {
+    if (q) {
+      const hay = `${b.title} ${b.author} ${b.borrower}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    if (fs === 'overdue') { if (!isOverdue(b)) return false; }
+    else if (fs && b.status !== fs) return false;
+    if (fl && b.language !== fl) return false;
+    if (fc && b.category !== fc) return false;
+    return true;
+  });
+}
+
+function renderBooks() {
+  const tbody = document.getElementById('books-tbody');
+  const list = getFiltered();
+  // Sort: overdue first, then borrowed, then available, then not_for_borrowing
+  list.sort((a,b) => {
+    const order = (x) => isOverdue(x) ? 0 : (x.status==='borrowed'?1 : (x.status==='available'?2 : 3));
+    const oa = order(a), ob = order(b);
+    if (oa !== ob) return oa - ob;
+    return (a.title||'').localeCompare(b.title||'', 'he');
+  });
+  tbody.innerHTML = list.map(b => {
+    const overdue = isOverdue(b);
+    const rowClass = overdue ? 'overdue' : b.status;
+    const badgeClass = overdue ? 'overdue' : b.status;
+    const badgeText = overdue ? 'באיחור' : statusLabel(b.status);
+    let borrowerHTML = '';
+    if (b.status === 'borrowed' && b.borrower) {
+      borrowerHTML = `
+        <div class="borrower-info">
+          <span class="name">${esc(b.borrower)}</span>
+          ${b.phone ? `<div class="meta">📞 ${esc(b.phone)}</div>` : ''}
+          ${b.email ? `<div class="meta">✉ ${esc(b.email)}</div>` : ''}
+          ${b.borrowDate ? `<div class="meta">הושאל: ${esc(formatDate(b.borrowDate))}</div>` : ''}
+          ${b.expectedReturn ? `<div class="meta">צפי: ${esc(formatDate(b.expectedReturn))}</div>` : ''}
+        </div>`;
+    }
+    let actionsHTML = '';
+    if (isAdmin) {
+      if (b.status === 'available') {
+        actionsHTML += `<button class="btn-gold" data-act="borrow" data-id="${b.id}">השאלה</button>`;
+      } else if (b.status === 'borrowed') {
+        actionsHTML += `<button class="btn-gold" data-act="return" data-id="${b.id}">החזרה</button>`;
+      }
+      actionsHTML += `<button class="btn-ghost" data-act="edit" data-id="${b.id}">עריכה</button>`;
+      actionsHTML += `<button class="btn-danger" data-act="delete" data-id="${b.id}">מחיקה</button>`;
+    }
+    return `
+      <tr class="${rowClass}" data-id="${b.id}">
+        <td>
+          <div class="book-title">${esc(b.title)}</div>
+          ${b.author ? `<div class="book-author">${esc(b.author)}</div>` : ''}
+        </td>
+        <td>${esc(languageLabel(b.language))}</td>
+        <td>${esc(categoryLabel(b.category))}</td>
+        <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+        <td>${borrowerHTML || '<span style="opacity:0.5">—</span>'}</td>
+        <td>${esc(b.owner || '')}</td>
+        ${isAdmin ? `<td><div class="row-actions">${actionsHTML}</div></td>` : ''}
+      </tr>
+    `;
+  }).join('');
+  document.getElementById('empty-msg').style.display = list.length ? 'none' : 'block';
+}
+
+function esc(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/[&<>"']/g, m => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
+}
+
+function renderAll() {
+  populateFilters();
+  renderStats();
+  renderBooks();
+  // toggle admin columns
+  document.querySelectorAll('.admin-only').forEach(el => {
+    el.style.display = isAdmin ? '' : 'none';
+  });
+}
+
+/* ============ MODE ============ */
+function setMode(admin) {
+  isAdmin = admin;
+  const banner = document.getElementById('mode-banner');
+  const label = document.getElementById('mode-label');
+  const btn = document.getElementById('btn-toggle-mode');
+  if (admin) {
+    banner.classList.add('admin');
+    label.textContent = 'מצב ניהול - אחראית הספרייה';
+    btn.textContent = 'יציאה ממצב ניהול';
+  } else {
+    banner.classList.remove('admin');
+    label.textContent = 'תצוגה ציבורית - קריאה בלבד';
+    btn.textContent = 'כניסת אחראית';
+  }
+  renderAll();
+}
+
+/* ============ MODAL CONTROL ============ */
+function openModal(id) {
+  document.getElementById(id).classList.add('show');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+document.querySelectorAll('[data-close]').forEach(b => {
+  b.addEventListener('click', e => {
+    e.target.closest('.modal-overlay').classList.remove('show');
+  });
+});
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => {
+    if (e.target === o) o.classList.remove('show');
+  });
+});
+
+/* ============ BOOK FORM ============ */
+function openAddBook() {
+  editingId = null;
+  document.getElementById('book-modal-title').textContent = 'הוספת ספר חדש';
+  document.getElementById('book-form').reset();
+  document.getElementById('book-id').value = '';
+  openModal('modal-book');
+}
+function openEditBook(id) {
+  const b = books.find(x => x.id === id);
+  if (!b) return;
+  editingId = id;
+  document.getElementById('book-modal-title').textContent = 'עריכת ספר';
+  document.getElementById('book-id').value = id;
+  document.getElementById('book-title').value = b.title || '';
+  document.getElementById('book-author').value = b.author || '';
+  document.getElementById('book-language').value = b.language || 'Hebrew';
+  document.getElementById('book-category').value = b.category || 'adults';
+  document.getElementById('book-owner').value = b.owner || 'RT';
+  document.getElementById('book-status').value = b.status || 'available';
+  openModal('modal-book');
+}
+document.getElementById('book-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const data = {
+    title: document.getElementById('book-title').value.trim(),
+    author: document.getElementById('book-author').value.trim(),
+    language: document.getElementById('book-language').value,
+    category: document.getElementById('book-category').value,
+    owner: document.getElementById('book-owner').value,
+    status: document.getElementById('book-status').value
+  };
+  if (editingId) {
+    const b = books.find(x => x.id === editingId);
+    Object.assign(b, data);
+    logHistory('עריכת ספר', b);
+    toast('הספר עודכן בהצלחה');
+  } else {
+    const newBook = {
+      id: nextId(), ...data,
+      borrowDate: '', borrower: '', email: '', phone: '',
+      expectedReturn: '', notes: ''
+    };
+    books.push(newBook);
+    logHistory('הוספת ספר', newBook);
+    toast('הספר נוסף בהצלחה');
+  }
+  save();
+  renderAll();
+  closeModal('modal-book');
+});
+
+/* ============ BORROW ============ */
+function openBorrow(id) {
+  const b = books.find(x => x.id === id);
+  if (!b) return;
+  document.getElementById('borrow-form').reset();
+  document.getElementById('borrow-book-id').value = id;
+  document.getElementById('borrow-book-title').value = b.title;
+  document.getElementById('borrow-date').value = todayISO();
+  // default expected return: 21 days
+  const exp = new Date(Date.now() + 21*24*60*60*1000);
+  document.getElementById('borrow-expected').value = exp.toISOString().slice(0,10);
+  openModal('modal-borrow');
+}
+document.getElementById('borrow-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const id = parseInt(document.getElementById('borrow-book-id').value);
+  const b = books.find(x => x.id === id);
+  if (!b) return;
+  b.status = 'borrowed';
+  b.borrower = document.getElementById('borrow-name').value.trim();
+  b.phone = document.getElementById('borrow-phone').value.trim();
+  b.email = document.getElementById('borrow-email').value.trim();
+  b.borrowDate = document.getElementById('borrow-date').value;
+  b.expectedReturn = document.getElementById('borrow-expected').value;
+  b.notes = document.getElementById('borrow-notes').value.trim();
+  logHistory('השאלה', b, {borrower: b.borrower, notes: b.notes});
+  save();
+  renderAll();
+  closeModal('modal-borrow');
+  toast(`הספר "${b.title}" הושאל ל${b.borrower}`);
+});
+
+/* ============ RETURN ============ */
+function openReturn(id) {
+  const b = books.find(x => x.id === id);
+  if (!b) return;
+  document.getElementById('return-form').reset();
+  document.getElementById('return-book-id').value = id;
+  document.getElementById('return-summary').innerHTML = `
+    <div><strong>הספר:</strong> ${esc(b.title)}</div>
+    <div><strong>הושאל ל:</strong> ${esc(b.borrower)}</div>
+    ${b.phone ? `<div><strong>טלפון:</strong> ${esc(b.phone)}</div>` : ''}
+    ${b.borrowDate ? `<div><strong>תאריך השאלה:</strong> ${esc(formatDate(b.borrowDate))}</div>` : ''}
+    ${b.expectedReturn ? `<div><strong>צפי החזרה:</strong> ${esc(formatDate(b.expectedReturn))}</div>` : ''}
+    ${b.notes ? `<div><strong>הערות:</strong> ${esc(b.notes)}</div>` : ''}
+  `;
+  openModal('modal-return');
+}
+document.getElementById('return-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const id = parseInt(document.getElementById('return-book-id').value);
+  const b = books.find(x => x.id === id);
+  if (!b) return;
+  const returnNotes = document.getElementById('return-notes').value.trim();
+  logHistory('החזרה', b, {borrower: b.borrower, notes: returnNotes});
+  b.status = 'available';
+  b.borrower = '';
+  b.phone = '';
+  b.email = '';
+  b.borrowDate = '';
+  b.expectedReturn = '';
+  b.notes = '';
+  save();
+  renderAll();
+  closeModal('modal-return');
+  toast('הספר הוחזר בהצלחה');
+});
+
+/* ============ DELETE ============ */
+function deleteBook(id) {
+  const b = books.find(x => x.id === id);
+  if (!b) return;
+  if (!confirm(`האם למחוק את הספר "${b.title}"?\nפעולה זו אינה ניתנת לביטול.`)) return;
+  logHistory('מחיקת ספר', b);
+  books = books.filter(x => x.id !== id);
+  save();
+  renderAll();
+  toast('הספר נמחק');
+}
+
+/* ============ HISTORY ============ */
+function renderHistory() {
+  const q = document.getElementById('history-search').value.trim().toLowerCase();
+  const list = q ? history.filter(h =>
+    (h.bookTitle + ' ' + h.borrower + ' ' + h.action + ' ' + h.notes).toLowerCase().includes(q)
+  ) : history;
+  document.getElementById('history-tbody').innerHTML = list.map(h => {
+    const dt = new Date(h.ts);
+    const dtStr = `${dt.getDate()}.${dt.getMonth()+1}.${dt.getFullYear()%100} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+    return `<tr>
+      <td>${dtStr}</td>
+      <td>${esc(h.action)}</td>
+      <td>${esc(h.bookTitle)}</td>
+      <td>${esc(h.borrower || '')}</td>
+      <td>${esc(h.notes || '')}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('history-empty').style.display = list.length ? 'none' : 'block';
+}
+document.getElementById('history-search').addEventListener('input', renderHistory);
+document.getElementById('btn-clear-history').addEventListener('click', () => {
+  if (!confirm('למחוק את כל היסטוריית ההשאלות?')) return;
+  history = [];
+  saveHistory();
+  renderHistory();
+  toast('ההיסטוריה נוקתה');
+});
+
+/* ============ EXPORT/IMPORT ============ */
+function exportJSON() {
+  const data = JSON.stringify({books, history, exportedAt: new Date().toISOString()}, null, 2);
+  const blob = new Blob([data], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `canta-library-${todayISO()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('הקובץ ירד בהצלחה');
+}
+function exportCSV() {
+  const headers = ['Title','Author','Language','Category','Status','BorrowDate','Borrower','Email','Phone','Owner','ExpectedReturn','Notes'];
+  const escCSV = (v) => {
+    if (v === null || v === undefined) return '';
+    const s = String(v);
+    return /[",\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s;
+  };
+  const rows = [headers.join(',')].concat(books.map(b => [
+    b.title,b.author,b.language,b.category,b.status,b.borrowDate,
+    b.borrower,b.email,b.phone,b.owner,b.expectedReturn,b.notes
+  ].map(escCSV).join(',')));
+  const bom = '\ufeff'; // utf-8 BOM for Excel
+  const blob = new Blob([bom + rows.join('\n')], {type: 'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `canta-library-${todayISO()}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('הקובץ ירד בהצלחה');
+}
+function importFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      let data;
+      if (file.name.endsWith('.json')) {
+        const parsed = JSON.parse(e.target.result);
+        data = Array.isArray(parsed) ? parsed : parsed.books;
+        if (parsed.history) {
+          if (confirm('האם לייבא גם את ההיסטוריה?')) history = parsed.history;
+        }
+      } else {
+        // CSV
+        const lines = e.target.result.replace(/^\ufeff/,'').split(/\r?\n/).filter(Boolean);
+        const headers = parseCSVLine(lines[0]);
+        data = lines.slice(1).map((line, i) => {
+          const vals = parseCSVLine(line);
+          const obj = {id: i+1};
+          headers.forEach((h,j) => {
+            const key = h.charAt(0).toLowerCase() + h.slice(1);
+            obj[key] = vals[j] || '';
+          });
+          // Ensure required fields
+          obj.borrowDate = obj.borrowDate || '';
+          obj.expectedReturn = obj.expectedReturn || '';
+          obj.notes = obj.notes || '';
+          return obj;
+        });
+      }
+      if (!Array.isArray(data) || !data.length) throw new Error('No data');
+      if (!confirm(`לייבא ${data.length} ספרים? פעולה זו תחליף את הנתונים הקיימים.`)) return;
+      // Re-id to avoid conflicts
+      data.forEach((b,i) => { b.id = i+1; });
+      books = data;
+      save();
+      renderAll();
+      toast(`יובאו ${data.length} ספרים בהצלחה`);
+    } catch(err) {
+      alert('שגיאה בייבוא: ' + err.message);
+    }
+  };
+  reader.readAsText(file, 'utf-8');
+}
+function parseCSVLine(line) {
+  const result = [];
+  let cur = '', inQ = false;
+  for (let i=0; i<line.length; i++) {
+    const c = line[i];
+    if (inQ) {
+      if (c === '"' && line[i+1] === '"') { cur += '"'; i++; }
+      else if (c === '"') inQ = false;
+      else cur += c;
+    } else {
+      if (c === '"') inQ = true;
+      else if (c === ',') { result.push(cur); cur = ''; }
+      else cur += c;
+    }
+  }
+  result.push(cur);
+  return result;
+}
+
+/* ============ EVENT LISTENERS ============ */
+document.getElementById('btn-toggle-mode').addEventListener('click', () => {
+  if (isAdmin) {
+    setMode(false);
+    toast('יצאת ממצב ניהול');
+  } else {
+    document.getElementById('login-password').value = '';
+    openModal('modal-login');
+    setTimeout(() => document.getElementById('login-password').focus(), 100);
+  }
+});
+document.getElementById('login-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const pwd = document.getElementById('login-password').value;
+  if (pwd === getPassword()) {
+    closeModal('modal-login');
+    setMode(true);
+    toast('ברוכה הבאה!');
+  } else {
+    alert('סיסמה שגויה');
+  }
+});
+document.getElementById('search').addEventListener('input', renderBooks);
+document.getElementById('filter-status').addEventListener('change', renderBooks);
+document.getElementById('filter-language').addEventListener('change', renderBooks);
+document.getElementById('filter-category').addEventListener('change', renderBooks);
+document.getElementById('btn-clear-filters').addEventListener('click', () => {
+  document.getElementById('search').value = '';
+  document.getElementById('filter-status').value = '';
+  document.getElementById('filter-language').value = '';
+  document.getElementById('filter-category').value = '';
+  renderBooks();
+});
+document.getElementById('btn-add-book').addEventListener('click', openAddBook);
+document.getElementById('btn-export-json').addEventListener('click', exportJSON);
+document.getElementById('btn-export-csv').addEventListener('click', exportCSV);
+document.getElementById('btn-import').addEventListener('click', () => document.getElementById('file-import').click());
+document.getElementById('file-import').addEventListener('change', e => {
+  if (e.target.files[0]) importFile(e.target.files[0]);
+  e.target.value = '';
+});
+document.getElementById('btn-history').addEventListener('click', () => {
+  renderHistory();
+  openModal('modal-history');
+});
+
+// Row action delegation
+document.getElementById('books-tbody').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-act]');
+  if (!btn) return;
+  const id = parseInt(btn.dataset.id);
+  const act = btn.dataset.act;
+  if (act === 'borrow') openBorrow(id);
+  else if (act === 'return') openReturn(id);
+  else if (act === 'edit') openEditBook(id);
+  else if (act === 'delete') deleteBook(id);
+});
+
+/* ============ INIT ============ */
+load();
+renderAll();
+</script>
+</body>
+</html>
